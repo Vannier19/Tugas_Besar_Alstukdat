@@ -4,6 +4,10 @@
 /* Versi II : dengan banyaknya elemen didefinisikan secara eksplisit,
    memori list dinamik */
 
+/*             READMEEE
+LIST INI DIGUNAKAN UNTUK MEMNYIMPAN LIST BARANG YANG ADA DI TOKO
+
+*/
 #ifndef LISTDIN_H
 #define LISTDIN_H
 
@@ -36,7 +40,7 @@ typedef struct
   Definisi elemen pertama : l.buffer[i] dengan i=0
   Definisi elemen terakhir yang terdefinisi: l.buffer[i] dengan i=l.capacity */
 
-/* ********** SELEKTOR ********** */
+/* ********** SELEKTOR ********* */
 #define NEFF(l) (l).nEff
 #define BUFFER(l) (l).buffer
 #define ELMT(l, i) (l).buffer[i]
