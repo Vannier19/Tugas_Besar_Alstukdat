@@ -1,4 +1,4 @@
-#include "boolean.h"
+#include "../boolean.h"
 #include "ADT_Array_Dinamis.h"
 #include <stdio.h>
 #include <stdlib.h>

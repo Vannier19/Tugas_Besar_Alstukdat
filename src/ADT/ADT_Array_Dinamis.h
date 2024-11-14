@@ -11,7 +11,7 @@ LIST INI DIGUNAKAN UNTUK MEMNYIMPAN LIST BARANG YANG ADA DI TOKO
 #ifndef LISTDIN_H
 #define LISTDIN_H
 
-#include "boolean.h"
+#include "../boolean.h"
 
 /*  Kamus Umum */
 #define IDX_MIN 0
