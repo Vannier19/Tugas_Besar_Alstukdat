@@ -1,4 +1,4 @@
-#include "../boolean.h"
+
 #include "ADT_Array_Dinamis.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -128,78 +128,8 @@ void printList(ListDin l)
 }
 /* ********** OPERATOR ARITMATIKA ********** */
 /* *** Aritmatika list : Penjumlahan, pengurangan, perkalian, ... *** */
-ListDin plusMinusList(ListDin l1, ListDin l2, boolean plus)
-/* Prekondisi : l1 dan l2 memiliki Neff sama dan tidak kosong */
-/* Jika plus = true, mengirimkan  l1+l2, yaitu setiap elemen l1 dan l2 pada indeks yang sama dijumlahkan */
-/* Jika plus = false, mengirimkan l1-l2, yaitu setiap elemen l1 dikurangi elemen l2 pada indeks yang sama */
-{
-    int i, n = NEFF(l1);
-    ListDin res;
-    CreateListDin(&res, CAPACITY(l1));
-    NEFF(res) = n;
-    if(plus){
-        for(i = 0;i<n;i++){
-            ELMT(res, i) = ELMT(l1, i) + ELMT(l2, i);
-        }
-    }
-    else{
-        for(i = 0;i<n;i++){
-            ELMT(res, i) = ELMT(l1, i) - ELMT(l2, i);
-        }
-    }
-    return res;
-}
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan list : < =, > *** */
-boolean isListEqual(ListDin l1, ListDin l2)
-/* Mengirimkan true jika l1 sama dengan l2 yaitu jika nEff l1 = l2 dan semua elemennya sama */
-{
-    int i, n = NEFF(l1);
-    if(n != NEFF(l2)){
-        return false;
-    }
-    for(i = 0;i<n;i++){
-        if(ELMT(l1, i) != ELMT(l2, i)){
-            return false;
-        }
-    }
-    return true;
-}
-/* ********** SEARCHING ********** */
-/* ***  Perhatian : list boleh kosong!! *** */
-IdxType indexOf(ListDin l, ElType val)
-/* Search apakah ada elemen List l yang bernilai val */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = val */
-/* Jika tidak ada, mengirimkan IDX_UNDEF */
-/* Menghasilkan indeks tak terdefinisi (IDX_UNDEF) jika List l kosong */
-/* Skema Searching yang digunakan bebas */
-{
-    int i, n = NEFF(l);
-    for(i = 0;i<n;i++){
-        if(ELMT(l, i) == val){
-            return i;
-        }
-    }
-    return IDX_UNDEF;
-}
-/* ********** NILAI EKSTREM ********** */
-void extremeValues(ListDin l, ElType *max, ElType *min)
-/* I.S. List l tidak kosong */
-/* F.S. max berisi nilai maksimum l;
-        min berisi nilai minimum l */
-{
-    *max = INT_MIN;
-    *min = INT_MAX;
-    int i, n = NEFF(l);
-    for(i = 0;i<n;i++){
-        if(ELMT(l, i) > *max){
-            *max = ELMT(l, i); 
-        }
-        if(ELMT(l, i) < *min){
-            *min = ELMT(l, i);
-        }
-    }
-}
+
+
 
 /* ********** OPERASI LAIN ********** */
 void copyList(ListDin lIn, ListDin *lOut)
@@ -216,63 +146,7 @@ void copyList(ListDin lIn, ListDin *lOut)
     CAPACITY(*lOut) = cap;
 }
 
-ElType sumList(ListDin l)
-/* Menghasilkan hasil penjumlahan semua elemen l */
-/* Jika l kosong menghasilkan 0 */
-{
-    ElType sum = 0;
-    int i, n = NEFF(l);
-    for(i = 0;i<n;i++){
-        sum+=ELMT(l,i);
-    }
-    return sum;
-}
 
-int countVal(ListDin l, ElType val)
-/* Menghasilkan berapa banyak kemunculan val di l */
-/* Jika l kosong menghasilkan 0 */
-{
-    int i, n = NEFF(l), count = 0;
-    for(i = 0;i<n;i++){
-        if(ELMT(l, i) == val){
-            count++;
-        }
-    }
-    return count;
-}
-
-/* ********** SORTING ********** */
-void sort(ListDin *l, boolean asc)
-/* I.S. l boleh kosong */
-/* F.S. Jika asc = true, l terurut membesar */
-/*      Jika asc = false, l terurut mengecil */
-/* Proses : Mengurutkan l dengan salah satu algoritma sorting,
-   algoritma bebas */
-{
-    int i, j, n = NEFF(*l);
-    if(asc){
-        for(i = 0;i<n-1;i++){
-            for(j = 0;j<n-i-1;j++){
-                if(ELMT(*l, j) > ELMT(*l, j+1)){
-                    int temp = ELMT(*l, j);
-                    ELMT(*l, j) = ELMT(*l, j+1);
-                    ELMT(*l, j+1) = temp;
-                }
-            }
-        }
-    }
-    else{
-        for(i = 0;i<n-1;i++){
-            for(j = 0;j<n-i-1;j++){
-                if(ELMT(*l, j) < ELMT(*l, j+1)){
-                    int temp = ELMT(*l, j);
-                    ELMT(*l, j) = ELMT(*l, j+1);
-                    ELMT(*l, j+1) = temp;
-                }
-            }
-        }
-    }
-}
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */

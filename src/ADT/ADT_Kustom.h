@@ -1,5 +1,5 @@
-#ifndef LISTDIN_H
-#define LISTDIN_H
+#ifndef Kustom
+#define Kustom
 
 
 #define MAX_ITEMS 100

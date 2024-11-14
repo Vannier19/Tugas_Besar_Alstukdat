@@ -10,7 +10,7 @@ LIST INI DIGUNAKAN UNTUK MEMNYIMPAN LIST BARANG YANG ADA DI TOKO
 */
 #ifndef LISTDIN_H
 #define LISTDIN_H
-
+#include"ADT_Kustom.h"
 #include "../boolean.h"
 
 /*  Kamus Umum */
@@ -20,7 +20,7 @@ LIST INI DIGUNAKAN UNTUK MEMNYIMPAN LIST BARANG YANG ADA DI TOKO
 /* Indeks tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */
-typedef int ElType; /* type elemen list */
+typedef Barang ElType; /* type elemen list */
 typedef int IdxType;
 typedef struct
 {
@@ -115,25 +115,7 @@ ListDin plusMinusList(ListDin l1, ListDin l2, boolean plus);
 /* Jika plus = true, mengirimkan  l1+l2, yaitu setiap elemen l1 dan l2 pada indeks yang sama dijumlahkan */
 /* Jika plus = false, mengirimkan l1-l2, yaitu setiap elemen l1 dikurangi elemen l2 pada indeks yang sama */
 
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan list : < =, > *** */
-boolean isListEqual(ListDin l1, ListDin l2);
-/* Mengirimkan true jika l1 sama dengan l2 yaitu jika nEff l1 = l2 dan semua elemennya sama */
 
-/* ********** SEARCHING ********** */
-/* ***  Perhatian : list boleh kosong!! *** */
-IdxType indexOf(ListDin l, ElType val);
-/* Search apakah ada elemen List l yang bernilai val */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = val */
-/* Jika tidak ada, mengirimkan IDX_UNDEF */
-/* Menghasilkan indeks tak terdefinisi (IDX_UNDEF) jika List l kosong */
-/* Skema Searching yang digunakan bebas */
-
-/* ********** NILAI EKSTREM ********** */
-void extremeValues(ListDin l, ElType *max, ElType *min);
-/* I.S. List l tidak kosong */
-/* F.S. max berisi nilai maksimum l;
-        min berisi nilai minimum l */
 
 /* ********** OPERASI LAIN ********** */
 void copyList(ListDin lIn, ListDin *lOut);
