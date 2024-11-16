@@ -74,7 +74,6 @@ ElType dequeue (Queue * Q){
         IDX_TAIL(*Q)=IDX_UNDEF;
     }
     else{
-        
         IDX_HEAD(*Q)=(IDX_HEAD(*Q)+1)%(IDX_MAX+1);
     }
     return X;
@@ -94,7 +93,8 @@ void displayQueue(Queue q){
     else {
         printf("[");
         while (!IsEmpty(q)){
-            Barang X=dequeue(&q);
+            Barang X;
+            X=dequeue(&q);
             printf("%d", X);
             if(!IsEmpty(q)){
                 printf(",");

@@ -11,7 +11,7 @@
 #define IDX_MAX 99
 
 /* Definisi tipe elemen dan indeks pada Queue */
-typedef int ElType;
+typedef Barang ElType;
 typedef int IdxType;
 
 typedef struct {
