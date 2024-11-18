@@ -5,7 +5,7 @@ char currentChar;
 boolean EOP;
 
 void START(){
-    fscanf(stdin,"%c",&currentChar);
+    scanf("%c",&currentChar);
     EOP= (currentChar == MARK);
 }
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
@@ -18,7 +18,7 @@ void START(){
 
 void ADV(){
     if (!IsEOP()) {  
-        fscanf(stdin, "%c", &currentChar);
+        scanf("%c", &currentChar);
         EOP = (currentChar == MARK);
     }
 }
