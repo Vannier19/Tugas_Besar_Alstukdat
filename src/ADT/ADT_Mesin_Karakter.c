@@ -7,6 +7,7 @@ boolean EOP;
 static FILE *pita = NULL;
 static int retval;
 
+
 void RESETPITA() {
 /* Mengembalikan state awal pita (kosong tanpa inputan) supaya pita dapat 
    digunakan kembali tanpa overflow dari pita input sebelumnya.
