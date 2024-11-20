@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include "boolean.h"
-#include "queue.h"
+#include "ADT_Queue.h"
 
 void CreateQueue(Queue *q){
     IDX_HEAD(*q) = IDX_UNDEF;
     IDX_TAIL(*q) = IDX_UNDEF;
 }
 
-boolean isEmpty(Queue q){
+boolean isKosong(Queue q){
     return ((IDX_HEAD(q)==IDX_UNDEF) && (IDX_TAIL(q)==IDX_UNDEF));
 }
 
-boolean isFull(Queue q){
+boolean isPenuh(Queue q){
     return ((IDX_TAIL(q)-IDX_HEAD(q)+1)%CAPACITY==0);
 }
 
