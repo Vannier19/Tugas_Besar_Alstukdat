@@ -80,3 +80,9 @@ void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
     EOP = (currentChar == MARK);
 }
+boolean isEOP() {
+/* Mengembalikan true jika currentChar = MARK
+    I.S. : sembarang
+    F.S. : true jika currentChar = MARK, false jika sebaliknya */
+     return EOP;
+}

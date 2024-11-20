@@ -5,7 +5,7 @@
 #define __MESINKATA_H__
 
 #include "boolean.h"
-#include "ADT_Mesin_Karakter.h"
+#include "mesinkarakter.c"
 
 
 #define NMax 150

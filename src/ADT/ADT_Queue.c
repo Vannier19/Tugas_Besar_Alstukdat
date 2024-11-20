@@ -12,11 +12,11 @@ boolean isKosong(Queue q){
 }
 
 boolean isPenuh(Queue q){
-    return ((IDX_TAIL(q)-IDX_HEAD(q)+1)%CAPACITY==0);
+    return ((IDX_TAIL(q)-IDX_HEAD(q)+1)%KAPASITAS==0);
 }
 
 int length(Queue q){
-    if (isEmpty(q)){
+    if (isKosong(q)){
         return 0;
     }
     else{
@@ -24,20 +24,20 @@ int length(Queue q){
             return (IDX_TAIL(q)-IDX_HEAD(q)+1);
         }
         else{
-            return (CAPACITY+IDX_TAIL(q)-IDX_HEAD(q)+1);
+            return (KAPASITAS+IDX_TAIL(q)-IDX_HEAD(q)+1);
         }
     }
 }
 
 void enqueue(Queue *q, ElType val){
-    if (isEmpty(*q)){
+    if (isKosong(*q)){
         IDX_HEAD(*q) = 0;
         IDX_TAIL(*q) = 0;
         TAIL(*q) = val;
     }
     else{
         IDX_TAIL(*q)+=1;
-        IDX_TAIL(*q)=IDX_TAIL(*q)%CAPACITY;
+        IDX_TAIL(*q)=IDX_TAIL(*q)%KAPASITAS;
         TAIL(*q) = val;
     }
 }
@@ -50,7 +50,7 @@ void dequeue(Queue *q, ElType *val){
     }
     else{
         IDX_HEAD(*q)+=1;
-        IDX_HEAD(*q) = IDX_HEAD(*q)%CAPACITY;
+        IDX_HEAD(*q) = IDX_HEAD(*q)%KAPASITAS;
     }
 }
 
@@ -68,7 +68,7 @@ void displayQueue(Queue q){
             }
         }
         else{
-           for(int i = IDX_HEAD(q); i<CAPACITY; i++){
+           for(int i = IDX_HEAD(q); i<KAPASITAS; i++){
                 printf("%d,",q.buffer[i]);
            }
            for(int i = 0; i<=IDX_TAIL(q); i++){
