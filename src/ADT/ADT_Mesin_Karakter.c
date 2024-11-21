@@ -7,54 +7,42 @@ boolean EOP;
 static FILE *pita = NULL;
 static int retval;
 
-
-void resetPita() {
-    if (pita != NULL) {
-        rewind(pita);
-    }
-}
-
-void startFile(char* file_name, boolean *success) {
-    // KAMUS LOKAL
-    static char path[100] = "../src/";
-    int i=0, len = 7;
-
-    resetPita();
-
-    // ALGORITMA
-    // Nyalin nama filenya ke path buat dicari
-    while (*file_name != '\0') {
-        path[i+len] = *file_name;
-        file_name++;
-        i++;
-    } 
-    path[i+len] = '\0';
-
-    pita = fopen(path, "r");
-    if (pita != NULL) {
-        *success = true;
-        ADV();
-    } else {
-        *success = false;
-    }
-}
-
 void start() {
-    resetPita();
-
     pita = stdin;
     ADV();
 }
 
 void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
-    EOP = (currentChar == MARK);
-    if (EOP) {
-        fclose(pita);
+    if(currentChar == '\n' || currentChar == ';'){
+        EOP = true;
     }
 }
 
-char GetCC() {
+void startFile(char *file_name) {
+    if (file_name == NULL){
+        pita = stdin;
+    } else {
+        pita = fopen(file_name, "r");
+    }
+    ADV();
+}
+
+void ADVFile() {
+    if (pita == NULL) {
+        EOP = true;
+    }
+    else {
+        retval = fscanf(pita, "%c", &currentChar);
+        EOP = feof(pita);
+
+        if (EOP) {
+            fclose(pita);
+        }
+    }
+}
+
+char getCC() {
     return currentChar;
 }
 

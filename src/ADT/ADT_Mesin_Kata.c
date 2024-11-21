@@ -3,20 +3,15 @@
 
 boolean EndWord;
 Word currentWord;
-
-
-void resetCurrentKata() {
-    currentWord.Length = 0;
-}
+int currSentenceWordCount;
 
 void ignoreBlanks() {
-    while (currentChar == BLANK) {
+    while (currentChar == BLANK || currentChar == '\n') {
         ADV();
     }
 }
 
 void startKata() {
-    resetCurrentKata();
     start();
     ignoreBlanks();
 
@@ -25,12 +20,12 @@ void startKata() {
     }
     else {
         EndWord = false;
-        ADVKata();
+        copyKata();
     }
+    ignoreBlanks();
 }
 
 void ADVKata() {
-    resetCurrentKata();
     ignoreBlanks();
 
     if (currentChar == MARK) {
@@ -39,42 +34,33 @@ void ADVKata() {
     else {
         EndWord = false;
         copyKata();
-        ignoreBlanks();
     }
+    ignoreBlanks();
 }
 
 void copyKata() {
-    int i = 0;
-    while ((currentChar != MARK) && (currentChar != BLANK) && (i < NMax)) {
-        currentWord.TabWord[i] = currentChar;
-        i += 1;
-        ADV();
+    currentWord.Length = 0;
+    while (currentChar != BLANK && currentChar != MARK && !isEOP()) {
+        if (currentWord.Length < NMax) { 
+            currentWord.TabWord[currentWord.Length++] = currentChar;
+            ADV();
+        }
+        else
+            break;
     }
-    currentWord.Length = i;
-
-    // currentWord.Length = 0;
-    // while (currentChar != BLANK && currentChar != MARK) {
-    //     if (currentWord.Length < NMax) { // jika lebih akan terpotong
-    //         currentWord.TabWord[currentWord.Length++] = currentChar;
-    //         ADV();
-    //     } else
-    //         break;
-    //         }
 }
 
-void startFileKata(char* path) {
-    boolean success;
+void startFileKata(char* file_name) {
+    startFile(file_name);
 
-    resetCurrentKata();
-    startFile(path, &success);
-
-    if (success) {
-        if (currentChar == MARK) {
+    if (currentChar != '\0') {
+        ignoreBlanks();
+        if (currentChar == '\n') {
             EndWord = true;
         }            
         else {
             EndWord = false;
-            copyKataDenganBlanks();
+            copySentence();
         }
     }
 }
@@ -88,27 +74,26 @@ void ADVFileKata() {
     }
     else {
         EndWord = false;
-        copyKataDenganBlanks();
+        copySentence();
     }
 }
 
-void copyKataDenganBlanks() {
-        int i = 0;
-    while ((currentChar != MARK) && (i < NMax)) {
-        currentWord.TabWord[i] = currentChar;
-        i += 1;
-        ADV();
+void copySentence() {
+    currentWord.Length = 0;
+    currSentenceWordCount = 0;
+    while (currentChar != MARK && currentChar != '\n'  && !isEOP()) 
+    {
+        if (currentWord.Length < NMax)
+        { 
+            if (currentChar == BLANK){
+                currSentenceWordCount++;
+            }
+            currentWord.TabWord[currentWord.Length++] = currentChar;
+            ADV();
+        }
+        else
+            break;
     }
-    currentWord.Length = i;
-
-    // currentWord.Length = 0;
-    // while (currentChar != MARK) {
-    //     if (currentWord.Length < NMax) { // jika lebih akan terpotong
-    //         currentWord.TabWord[currentWord.Length++] = currentChar;
-    //         ADV();
-    //     } else
-    //         break;
-    //         }
 }
 
 void startLine() {
@@ -120,7 +105,7 @@ void startLine() {
     }
     else {
         EndWord = false;
-        copyKataDenganBlanks();
+        copySentence();
     }
 }
 
