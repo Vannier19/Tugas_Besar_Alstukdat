@@ -1,4 +1,4 @@
-/* File: mesinkata.h */
+/* File: ADT_Mesin_Kata.h */
 /* Definisi Mesin Kata: Model Akuisisi Versi I */
 
 #ifndef __MESINKATA_H__
