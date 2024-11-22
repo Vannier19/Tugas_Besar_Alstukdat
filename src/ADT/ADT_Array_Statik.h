@@ -73,4 +73,11 @@ void DeleteLast(List *L);
 void DeleteAt(List *L, int idx);
 /* Menghapus elemen pada indeks ke-idx */
 
+// ********** OPERASI PENCARIAN **********
+int SearchInList(List L, Word key);
+/* Mencari elemen dalam list berdasarkan nama menggunakan Mesin Kata.
+ * IS: List terdefinisi dan kata key terdefinisi.
+ * FS: Mengembalikan indeks elemen pertama yang cocok dengan key, atau -1 jika tidak ditemukan.
+ */
+
 #endif
