@@ -98,3 +98,22 @@ void DeleteAt(List *L, int idx) {
         L->Count--;
     }
 }
+
+// ********** OPERASI PENCARIAN **********
+int SearchInList(List L, Word key) {
+    int idx = -1;
+    Word currentWord;
+    for (int i = 0; i < L.Count; i++) {
+        currentWord.Length = 0;
+        for (int j = 0; j < strlen(L.A[i].name); j++) {
+            if (currentWord.Length < NMax) {
+                currentWord.TabWord[currentWord.Length++] = L.A[i].name[j];
+            }
+        }
+        if (isKataEqual(currentWord, key)) {
+            idx = i;
+            break;
+        }
+    }
+    return idx;
+}
