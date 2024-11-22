@@ -6,7 +6,7 @@ Word currentWord;
 int currSentenceWordCount;
 
 void ignoreBlanks() {
-    while (currentChar == BLANK || currentChar == '\n') {
+    while ((currentChar == BLANK || currentChar == '\n') && !isEOP()) {
         ADV();
     }
 }
@@ -14,7 +14,6 @@ void ignoreBlanks() {
 void startKata() {
     start();
     ignoreBlanks();
-
     if (currentChar == MARK) {
         EndWord = true;
     }
@@ -28,14 +27,14 @@ void startKata() {
 void ADVKata() {
     ignoreBlanks();
 
-    if (currentChar == MARK) {
+    if (isEOP() || currentChar == MARK) {
         EndWord = true;
     }
     else {
-        EndWord = false;
         copyKata();
+        EndWord = false;
     }
-    ignoreBlanks();
+    // ignoreBlanks();
 }
 
 void copyKata() {
@@ -45,60 +44,80 @@ void copyKata() {
             currentWord.TabWord[currentWord.Length++] = currentChar;
             ADV();
         }
-        else
-            break;
+        // else {
+        //     break;
+        // }
+            // break;
+        // ADV();
     }
 }
 
 void startFileKata(char* file_name) {
     startFile(file_name);
+    ignoreBlanks();
 
-    if (currentChar != '\0') {
-        ignoreBlanks();
-        if (currentChar == '\n') {
-            EndWord = true;
-        }            
-        else {
-            EndWord = false;
-            copySentence();
-        }
-    }
-}
-
-void ADVFileKata() {
-    resetCurrentKata();
-    EndWord = false;
-
-    if (currentChar == MARK) {
+    if (isEOP() || currentChar == MARK) {
         EndWord = true;
     }
     else {
         EndWord = false;
-        copySentence();
+        copyKata();
+        // ignoreBlanks();
+        // if (currentChar == MARK) {
+        //     EndWord = true;
+        // }            
+        // else {
+        //     EndWord = false;
+        //     copyKata();
+        // }
+    }
+        // ignoreBlanks();
+        // if (currentChar == MARK) {
+        //     EndWord = true;
+        // }            
+        // else {
+        //     EndWord = false;
+        //     copyKata();
+        // }
+    // }
+}
+
+void ADVFileKata() {
+    // resetCurrentKata();
+    ignoreBlanks();
+    // EndWord = false;
+
+    if (isEOP() || currentChar == MARK) {
+        EndWord = true;
+    }
+    else {
+        copyKata();
+        EndWord = false;
+        // copySentence();
     }
 }
 
 void copySentence() {
     currentWord.Length = 0;
     currSentenceWordCount = 0;
-    while (currentChar != MARK && currentChar != '\n'  && !isEOP()) 
-    {
-        if (currentWord.Length < NMax)
-        { 
-            if (currentChar == BLANK){
+    while (currentChar != MARK && currentChar != '\n'  && !isEOP()) {
+        if (currentWord.Length < NMax) { 
+            if (currentChar == BLANK) {
                 currSentenceWordCount++;
             }
             currentWord.TabWord[currentWord.Length++] = currentChar;
             ADV();
         }
-        else
+        else {
             break;
+        }
+            // break;
     }
 }
 
 void startLine() {
-    resetCurrentKata();
-    START();
+    // resetCurrentKata();
+    start();
 
     if (currentChar == MARK) {
         EndWord = true;
