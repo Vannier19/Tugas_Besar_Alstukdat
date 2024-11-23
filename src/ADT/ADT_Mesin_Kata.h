@@ -5,10 +5,10 @@
 #define __MESINKATA_H__
 
 #include "boolean.h"
-#include "mesinkarakter.c"
+#include "ADT_Mesin_Karakter.h"
 
 
-#define NMax 150
+#define NMax 100
 #define BLANK ' '
 
 typedef struct
@@ -21,32 +21,30 @@ typedef struct
 extern boolean EndWord;
 extern Word currentWord;
 
-void ResetCurrentWord();
+void resetCurrentKata();
 /* Mengembalikan currentWord ke state awal (kosong / length=0).
    I.S. : currentWord sembarang
-   F.S. : currentWord kosong (memiliki length 0) */
+   F.S. : currentWord kosong atau length-nya = 0 */
 
-void IgnoreBlanks();
+void ignoreBlanks();
 /* Mengabaikan satu atau beberapa BLANK.
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
-void STARTWORD();
-/* Kata dibaca dengan prosedur START() yang akan membaca dari input 
-   user, akuisisi kata menggunakan CopyWord.
-   I.S. : currentChar sembarang
+void startKata();
+/* I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
-void ADVWORD();
+void ADVKata();
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
 
-void CopyWord();
+void copyKata();
 /* Mengakuisisi kata, menyimpan dalam currentWord.
    I.S. : currentChar adalah karakter pertama dari kata
    F.S. : currentWord berisi kata yang sudah diakuisisi;
@@ -54,22 +52,22 @@ void CopyWord();
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void STARTWORDFILE(char* path);
+void startFileKata(char* file_name);
 /* Kata dibaca dengan prosedur STARTFILE() yang akan membaca dari file pada path, 
-   akuisisi kata menggunakan CopyWordWithBlanks.
+   akuisisi kata menggunakan copySentence.
    I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
-void ADVWORDFILE();
+void ADVFileKata();
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
-   Proses : Akuisisi kata menggunakan procedure CopyWordWithBlanks */
+   Proses : Akuisisi kata menggunakan procedure copySentence */
 
-void CopyWordWithBlanks();
+void copySentence();
 /* Mengakuisisi kata dengan membolehkan blanks, menyimpan dalam currentWord.
    I.S. : currentChar adalah karakter pertama dari kata
    F.S. : currentWord berisi kata yang sudah diakuisisi;
@@ -77,24 +75,25 @@ void CopyWordWithBlanks();
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void STARTLINE();
+void startLine();
 /* Membaca satu line dari user, dengan membolehkan spasi.
    I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
-boolean isKataEqual(Word W1, Word W2);
-/* Mengembalikan true bila Word W1 sama dengan Word W2. */
+boolean isKataEqual(Word kata1, Word kata2);
+/* Mengembalikan true bila Word kata1 sama dengan Word kata2. */
 
-boolean isKataInt(Word W);
+boolean isKataInt(Word kata);
 /* Mengembalikan true apabila seluruh isi Word berupa numerik */
 
-void displayWord(Word W, boolean newLine);
+void displayKata(Word kata, boolean newLine);
 /* Menampilkan isi Word ke layar.
    I.S. : sembarang
    F.S. : Seluruh isi dalam Word telah ditampilkan pada layar */
 
-int WordToInt(Word W);
-/* Mengembalikan nilai integer dari Word W */
+int kataToInt(Word kata);
+/* Mengembalikan nilai integer dari Word kata */
+
 #endif
