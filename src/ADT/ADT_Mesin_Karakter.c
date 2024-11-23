@@ -17,14 +17,17 @@ void ADV() {
     // if(currentChar == '\n' || currentChar == ';'){
     //     EOP = true;
     // }
-    retval = fscanf(pita, "%c", &currentChar);
-    if (currentChar == '\r'){
-           retval = fscanf(pita, "%c", &currentChar);
+    // retval = fscanf(pita, "%c", &currentChar);
+    // if (currentChar == '\r'){
+    //        retval = fscanf(pita, "%c", &currentChar);
+    // }
+    // EOP = feof(pita);
+    if(fscanf(pita,"%c", &currentChar)== MARK){
+        EOP = true;
     }
-    EOP = feof(pita);
 }
 
-void startFile(char *file_name) {
+void startFile(const char *file_name) {
     pita = fopen(file_name, "r");
     if (pita == NULL){
         // EOP = true;

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ADT_Mesin_Kata.h"
 
 boolean EndWord;
@@ -6,7 +7,7 @@ Word currentWord;
 int currSentenceWordCount;
 
 void ignoreBlanks() {
-    while ((currentChar == BLANK || currentChar == '\n') && !isEOP()) {
+    while ((currentChar == BLANK || currentChar == '\n') && !isEOP()&& currentChar != MARK) {
         ADV();
     }
 }
@@ -21,7 +22,7 @@ void startKata() {
         EndWord = false;
         copyKata();
     }
-    ignoreBlanks();
+    // ignoreBlanks();
 }
 
 void ADVKata() {
@@ -44,15 +45,10 @@ void copyKata() {
             currentWord.TabWord[currentWord.Length++] = currentChar;
             ADV();
         }
-        // else {
-        //     break;
-        // }
-            // break;
-        // ADV();
     }
 }
 
-void startFileKata(char* file_name) {
+void startFileKata(const char* file_name) {
     startFile(file_name);
     ignoreBlanks();
 
@@ -62,24 +58,7 @@ void startFileKata(char* file_name) {
     else {
         EndWord = false;
         copyKata();
-        // ignoreBlanks();
-        // if (currentChar == MARK) {
-        //     EndWord = true;
-        // }            
-        // else {
-        //     EndWord = false;
-        //     copyKata();
-        // }
     }
-        // ignoreBlanks();
-        // if (currentChar == MARK) {
-        //     EndWord = true;
-        // }            
-        // else {
-        //     EndWord = false;
-        //     copyKata();
-        // }
-    // }
 }
 
 void ADVFileKata() {
@@ -126,7 +105,7 @@ void startLine() {
         EndWord = false;
         copySentence();
     }
-}
+} 
 
 boolean isKataEqual(Word kata1, Word kata2) {
     int i;
