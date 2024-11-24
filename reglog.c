@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include "reglog.h"
 #include "ADT_Mesin_Karakter.h"
-#include "ADT_Mesin_Kata.h" 
+#include "ADT_Mesin_Kata.h"
 #include "ADT_Kustom.h"
 
 int session_active = 0; // Menandakan apakah sesi telah dimulai
 int user_count, i;
 Word logged_in_user = { "", 0 }; // Menyimpan users[i].name yang sedang login
 
+// Fungsi untuk membaca data dari file
 void read_file(const char *file_name) {
-    // Mulai membaca file
-    startFileKata(TXT_FILE);
+    startFileKata(TXT_FILE); // Memulai pembacaan file
 
     // Membaca jumlah barang
     int nBarang;
@@ -67,7 +67,7 @@ void read_file(const char *file_name) {
     }
 }
 
-// Fungsi untuk menulis data ke file
+// Fungsi untuk menulis data user ke file
 void write_user_to_file(User users[], int user_count) {
     startFileKata(TXT_FILE); // Membuka file database user
 
@@ -77,15 +77,24 @@ void write_user_to_file(User users[], int user_count) {
     }
 
     for (int i = 0; i < user_count; i++) {
-        char username[MAX_LEN] = users[i].name;
-        copyKata(&currentWord, &username);
-        //wordToString(username, &currentWord);  // Mengonversi Word menjadi string
-        displayKata(currentWord, false);
+        Word username;
+        username.Length = users[i].name.Length;
+        for (int j = 0; j < username.Length; j++) {
+            username.TabWord[j] = users[i].name.TabWord[j];  // Menyalin karakter satu per satu
+        }
+
+        copyKata(&currentWord, &username);  // Menyalin username ke currentWord
+        displayKata(currentWord, false);  // Menampilkan username
 
         Word spasi = {.TabWord = " ", .Length = 1};
         displayKata(spasi, false);
 
-        char password[MAX_LEN] = users[i].password;
+        Word password;
+        password.Length = users[i].password.Length;
+        for (int j = 0; j < password.Length; j++) {
+            password.TabWord[j] = users[i].password.TabWord[j];  // Menyalin karakter password satu per satu
+        }
+
         copyKata(&currentWord, &password);
         displayKata(currentWord, false);  // Menampilkan password
 
@@ -141,14 +150,13 @@ void register_user() {
     copyKata(&currentWord, &password);  // Mengambil password
 
     for (int i = 0; i < user_count; i++) {
-        char uname[MAX_LEN] = users[i].name;
-        copyKata(&currentWord, &uname);
-        if (isKataEqual(username, currentWord)) {
+        if (isKataEqual(username, users[i].name)) {
             printf("Akun dengan username %s gagal dibuat. Silakan lakukan REGISTER ulang.\n", username.TabWord);
             return;
         }
     }
 
+    // Menyimpan username dan password ke dalam users
     copyKata(&username, &users[user_count].name);
     copyKata(&password, &users[user_count].password);
     users[user_count].money = 0; // Nilai default saldo
