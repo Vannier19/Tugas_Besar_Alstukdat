@@ -6,6 +6,7 @@
 #define LIST_H
 
 #include "ADT_Kustom.h"
+#include "ADT_Mesin_Kata.h"
 #include "../boolean.h"
 
 // Konstanta
