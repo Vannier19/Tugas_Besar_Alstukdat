@@ -4,7 +4,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "boolean.h"
+#include "../boolean.h"
 #include "ADT_Kustom.h"
 #define IDX_UNDEF -1
 #define KAPASITAS 100
