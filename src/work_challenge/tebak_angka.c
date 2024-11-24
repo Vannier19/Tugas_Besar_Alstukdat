@@ -26,10 +26,10 @@ void tebak_angka_game() {
 
     for (int i = 0; i < kesempatan; i++) {
         printf("Tebak angka (1-100): ");
-        STARTWORD(); 
+        startKata(); 
 
         if (isKataInt(currentWord)) {
-            tebakan = WordToInt(currentWord); 
+            tebakan = kataToInt(currentWord); 
         } else {
             printf("Input tidak valid. Harap masukkan angka antara 1-100.\n");
             i--; 
