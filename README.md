@@ -2,10 +2,10 @@
 Tubes Alstrukdat
 
 # Kelompok 05 - K02
-Stevan Einer Bonagabe-18223028
-Kenlyn Tesalonika Winata-18223098
-Nurul Na’im Natifah-18223106
-Florecita Natawirya-18223040
+Stevan Einer Bonagabe-18223028 [^2]
+Kenlyn Tesalonika Winata-18223098 [^2]
+Nurul Na’im Natifah-18223106 [^2]
+Florecita Natawirya-18223040 [^2]
 Valereo Jibril Al Buchori-18223030
 
 # Deskripsi
