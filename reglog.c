@@ -6,31 +6,28 @@
 #include "ADT_Kustom.h"
 
 int session_active = 0; // Menandakan apakah sesi telah dimulai
-int user_count, i;
+int jumlahUsers = 0, i;
 Word logged_in_user = { "", 0 }; // Menyimpan users[i].name yang sedang login
 
 // Fungsi untuk membaca data dari file
 void read_file(const char *file_name) {
-    startFileKata(TXT_FILE); // Memulai pembacaan file
+    startFileKata(file_name); // Memulai pembacaan file
 
-    // Membaca jumlah barang
-    int nBarang;
-    if (!EndWord && isKataInt(currentWord)) {
-        nBarang = kataToInt(currentWord);
-        ADVFileKata();
+    if (EndWord || !isKataInt(currentWord)) {
+        printf("Error: Format file salah.\n");
+        return;
     }
 
+    // Membaca jumlah barang
+    int jumlahBarang = kataToInt(currentWord);
+    ADVFileKata();
+
     // Membaca data barang
-    for (int i = 0; i < nBarang; i++) {
-        if (EndWord) break;
+    for (int i = 0; i < jumlahBarang; i++) {
+        if (EndWord || !isKataInt(currentWord)) break;
 
-        // Membaca harga
-        if (isKataInt(currentWord)) {
-            items[i].price = kataToInt(currentWord);
-            ADVFileKata();
-        }
-
-        // Membaca nama barang
+        items[i].price = kataToInt(currentWord);
+        ADVFileKata();
         if (!EndWord) {
             wordToString(currentWord, items[i].name);
             ADVFileKata();
@@ -39,12 +36,12 @@ void read_file(const char *file_name) {
 
     // Membaca jumlah user
     if (!EndWord && isKataInt(currentWord)) {
-        user_count = kataToInt(currentWord);
+        jumlahUsers = kataToInt(currentWord);
         ADVFileKata();
     }
 
     // Membaca data user
-    for (int i = 0; i < user_count; i++) {
+    for (int i = 0; i < jumlahUsers; i++) {
         if (EndWord) break;
 
         // Membaca saldo
@@ -67,63 +64,32 @@ void read_file(const char *file_name) {
     }
 }
 
-// Fungsi untuk menulis data user ke file
-void write_user_to_file(User users[], int user_count) {
-    startFileKata(TXT_FILE); // Membuka file database user
-
-    if (EndWord) { // Mengecek apabila file gagal dibuka
-        printf("Error: Tidak dapat membuka file %s untuk menulis data.\n", TXT_FILE);
-        return;
-    }
-
-    for (int i = 0; i < user_count; i++) {
-        Word username;
-        username.Length = users[i].name.Length;
-        for (int j = 0; j < username.Length; j++) {
-            username.TabWord[j] = users[i].name.TabWord[j];  // Menyalin karakter satu per satu
-        }
-
-        copyKata(&currentWord, &username);  // Menyalin username ke currentWord
-        displayKata(currentWord, false);  // Menampilkan username
-
-        Word spasi = {.TabWord = " ", .Length = 1};
-        displayKata(spasi, false);
-
-        Word password;
-        password.Length = users[i].password.Length;
-        for (int j = 0; j < password.Length; j++) {
-            password.TabWord[j] = users[i].password.TabWord[j];  // Menyalin karakter password satu per satu
-        }
-
-        copyKata(&currentWord, &password);
-        displayKata(currentWord, false);  // Menampilkan password
-
-        Word newline = {.TabWord = "\n", .Length = 1};
-        displayKata(newline, true);  // Menambahkan newline
-    }
-}
+// // Fungsi untuk menulis data user ke file
+// void write_user_to_file(User users[], int jumlahUsers, const char *file_name) {
+//     read_file(TXT_FILE);
+//     FILE *file = fopen(TXT_FILE, "w");
+//     if (file == NULL) {
+//         printf("Error: Tidak dapat membuka file %s untuk menulis data.\n", file_name);
+//         return;
+//     }
+// 
+//     // Menulis jumlah pengguna
+//     fprintf(file, "%d\n", jumlahUsers);
+// 
+//     // Menulis data pengguna ke file
+//     for (int i = 0; i < jumlahUsers; i++) {
+//         fprintf(file, "%d %s %s\n", users[i].money, users[i].name, users[i].password);
+//     }
+// 
+//     fclose(file); // Menutup file
+// }
 
 // Fungsi untuk memeriksa apakah username sudah ada
-int is_username_exists(const User users[], int user_count, const Word *username) {
-    startFileKata(TXT_FILE);
-
-    if (EndWord) {
-        return 0; // File tidak ada, berarti users[i].name belum terdaftar
-    }
-
-    Word temp_username, temp_password;
-
-    while (!EndWord) {
-        temp_username = currentWord;  // Menyimpan users[i].name yang dibaca
-        ADVFileKata();  // Berpindah ke users[i].password
-        temp_password = currentWord;  // Menyimpan users[i].password
-
-        // Cek apakah users[i].name yang dibaca sama dengan users[i].name yang dicari
-        if (isKataEqual(temp_username, *username)) {
+int is_username_exists(const User users[], int jumlahUsers, const Word *username) {
+    for (int i = 0; i < jumlahUsers; i++) {
+        if (compareKata(*username, users[i].name)) {
             return 1; // Username ditemukan
         }
-
-        ADVFileKata();  // Pindah ke kata berikutnya (jika ada)
     }
     return 0; // Username tidak ditemukan
 }
@@ -135,35 +101,42 @@ void register_user() {
         return;
     }
 
-    if (user_count >= MAX_USERS) {
+    if (jumlahUsers >= MAX_USERS) {
         printf("Error: Jumlah pengguna maksimal telah tercapai.\n");
         return;
     }
 
     Word username, password;
+    char kataSkrng[MAX_LEN];
     printf("Username: ");
     startKata();
-    copyKata(&currentWord, &username);  // Mengambil username
+    // wordToString(currentWord, kataSkrng);
+
+    // printf("%s", kataSkrng);
+    // copyKata();  // Mengambil username
+    username = currentWord;
+    // wordToString(username, kataSkrng);
 
     printf("Password: ");
     startKata();
-    copyKata(&currentWord, &password);  // Mengambil password
+    password = currentWord;
+    // copyKata(currentWord, &password);  // Mengambil password
 
-    for (int i = 0; i < user_count; i++) {
-        if (isKataEqual(username, users[i].name)) {
-            printf("Akun dengan username %s gagal dibuat. Silakan lakukan REGISTER ulang.\n", username.TabWord);
-            return;
-        }
+    wordToString(username, kataSkrng);
+
+    if (is_username_exists(users, jumlahUsers, &username)) {
+        printf("Akun dengan username %s gagal dibuat. Silakan lakukan REGISTER ulang.\n", kataSkrng);
+        return;
     }
 
     // Menyimpan username dan password ke dalam users
-    copyKata(&username, &users[user_count].name);
-    copyKata(&password, &users[user_count].password);
-    users[user_count].money = 0; // Nilai default saldo
-    user_count++;
+    copyString(&username, &users[jumlahUsers].name);
+    copyString(&password, &users[jumlahUsers].password);
+    users[jumlahUsers].money = 0; // Nilai default saldo
+    jumlahUsers++;
 
-    write_user_to_file(users, user_count);
-    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", username.TabWord);
+    // write_user_to_file(users, jumlahUsers, TXT_FILE);
+    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", kataSkrng);
 }
 
 // Fungsi LOGIN
@@ -179,6 +152,7 @@ void login_user() {
     }
 
     Word input_username, input_password;
+    char logged_in_user[MAX_LEN];
     printf("Username: ");
     startKata();  // Membaca username
     copyKata(&currentWord, &input_username);
@@ -187,37 +161,19 @@ void login_user() {
     startKata();  // Membaca password
     copyKata(&currentWord, &input_password);
 
-    // Membuka file data user
-    startFileKata(TXT_FILE);
-    if (EndWord) {
-        printf("Tidak ada data pengguna terdaftar.\n");
+    if (is_username_exists(users, jumlahUsers, &input_username)) {
+        printf("Username atau password salah.\n");
         return;
     }
-
-    Word temp_username, temp_password;
-    int current_index = 0;  // Indeks untuk membaca file
-
-    while (!EndWord) {
-        temp_username = currentWord;
-        ADVFileKata();
-
-        temp_password = currentWord;
-        ADVFileKata();
-
-        if (isKataEqual(temp_username, input_username) && isKataEqual(temp_password, input_password)) {
-            copyKata(&input_username, &logged_in_user);  // Menyimpan username yang login
-            printf("Anda telah login ke PURRMART sebagai %s.\n", logged_in_user.TabWord);
-            return;
-        }
-        current_index++;
+    else {  // Login berhasil
+        wordToString(input_username, logged_in_user); // Menyimpan username yang login
+        printf("Anda telah login ke PURRMART sebagai %s.\n", logged_in_user);
     }
-
-    printf("Username atau password salah.\n");
 }
 
 // Fungsi untuk LOGOUT
 void logout_user() {
-    if (logged_in_user.Length == 0) {  // Menggunakan logged_in_user.length untuk mengecek login status
+    if (logged_in_user.Length == 0) {  // Menggunakan logged_in_user.Length untuk mengecek login status
         printf("Anda belum login.\n");
     } else {
         printf("Anda telah logout dari PURRMART.\n");
