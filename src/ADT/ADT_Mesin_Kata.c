@@ -7,7 +7,7 @@ Word currentWord;
 int currSentenceWordCount;
 
 void ignoreBlanks() {
-    while ((currentChar == BLANK || currentChar == '\n') && !isEOP()&& currentChar != MARK) {
+    while ((currentChar == BLANK || currentChar == '\n' || currentChar == '\r') && !isEOP()) {
         ADV();
     }
 }
@@ -15,37 +15,54 @@ void ignoreBlanks() {
 void startKata() {
     start();
     ignoreBlanks();
-    if (currentChar == MARK) {
+    if (currentChar == EOF) {
+        EndWord = true;
+    }
+    else if (currentChar == MARK || currentChar == '\n') {
         EndWord = true;
     }
     else {
         EndWord = false;
         copyKata();
     }
-    // ignoreBlanks();
 }
 
 void ADVKata() {
     ignoreBlanks();
-
-    if (isEOP() || currentChar == MARK) {
+    if (currentChar == EOF || currentChar == MARK) {
         EndWord = true;
     }
     else {
         copyKata();
         EndWord = false;
     }
-    // ignoreBlanks();
 }
 
 void copyKata() {
     currentWord.Length = 0;
-    while (currentChar != BLANK && currentChar != MARK && !isEOP()) {
-        if (currentWord.Length < NMax) { 
-            currentWord.TabWord[currentWord.Length++] = currentChar;
-            ADV();
-        }
+    boolean isNumber = true;
+
+    if (currentChar < '0' || currentChar > '9') {
+        isNumber = false;
     }
+
+    while (!isEOP() && currentChar != MARK && currentChar != '\n') {
+        if (isNumber) {
+            if (currentChar < '0' || currentChar > '9' || currentChar == BLANK) {
+                break;
+            }
+        } else {
+            if (currentChar == '\n') {
+                break;
+            }
+        }
+
+        if (currentWord.Length < NMax) {
+            currentWord.TabWord[currentWord.Length++] = currentChar;
+        }
+        ADV();
+    }
+    currentWord.TabWord[currentWord.Length] = '\0';
 }
 
 void startFileKata(const char* file_name) {
@@ -62,25 +79,20 @@ void startFileKata(const char* file_name) {
 }
 
 void ADVFileKata() {
-    // resetCurrentKata();
     ignoreBlanks();
-    // EndWord = false;
-
-    if (isEOP() || currentChar == MARK) {
+    if (currentChar == MARK || isEOP()) {
         EndWord = true;
     }
     else {
         copyKata();
-        EndWord = false;
-        // copySentence();
     }
 }
 
 void copySentence() {
     currentWord.Length = 0;
     currSentenceWordCount = 0;
-    while (currentChar != MARK && currentChar != '\n'  && !isEOP()) {
-        if (currentWord.Length < NMax) { 
+    while (currentChar != MARK && currentChar != '\n' && !isEOP()) {
+        if (currentWord.Length < NMax) {
             if (currentChar == BLANK) {
                 currSentenceWordCount++;
             }
@@ -90,14 +102,11 @@ void copySentence() {
         else {
             break;
         }
-            // break;
     }
 }
 
 void startLine() {
-    // resetCurrentKata();
     start();
-
     if (currentChar == MARK) {
         EndWord = true;
     }
@@ -105,49 +114,71 @@ void startLine() {
         EndWord = false;
         copySentence();
     }
-} 
+}
 
 boolean isKataEqual(Word kata1, Word kata2) {
-    int i;
-    
     if (kata1.Length != kata2.Length) {
         return false;
     }
-    else {
-        for (i=0; i<kata1.Length; i++) {
-            if (kata1.TabWord[i] != kata2.TabWord[i]) {
-                return false;
-            }
-        } return true;
+    
+    for (int i = 0; i < kata1.Length; i++) {
+        if (kata1.TabWord[i] != kata2.TabWord[i]) {
+            return false;
+        }
     }
+    return true;
 }
 
 boolean isKataInt(Word kata) {
-    int i;
-
-    for (i=0; i<kata.Length; i++) {
+    for (int i = 0; i < kata.Length; i++) {
         if (!(kata.TabWord[i] >= '0' && kata.TabWord[i] <= '9')) {
             return false;
         }
-    } return true;
+    }
+    return true;
 }
 
 void displayKata(Word kata, boolean newLine) {
-    int i=0;
-
-    for (i=0; i<kata.Length; i++) {
+    for (int i = 0; i < kata.Length; i++) {
         printf("%c", kata.TabWord[i]);
-    } 
-
+    }
     if (newLine) {
         printf("\n");
     }
 }
 
 int kataToInt(Word kata) {
-    int i, result=0;
+    int result = 0;
+    for (int i = 0; i < kata.Length; i++) {
+        result = result * 10 + (kata.TabWord[i] - '0');
+    }
+    return result;
+}
 
-    for (i=0; i<kata.Length; i++) {
-        result = result*10 + (kata.TabWord[i] - '0');
-    } return result;
+int isEqualChar(const char *a, const char *b) {
+    int i = 0;
+    while (a[i] != '\0' && b[i] != '\0') {
+        if (a[i] != b[i]) {
+            return 0;
+        }
+        i++;
+    }
+    return (a[i] == '\0' && b[i] == '\0');
+}
+
+int compareKata(Word kata, const char *str) {
+    int i;
+    for (i = 0; i < kata.Length && str[i] != '\0'; i++) {
+        if (kata.TabWord[i] != str[i]) {
+            return 0;
+        }
+    }
+    return (i == kata.Length && str[i] == '\0');
+}
+
+void wordToString(Word w, char *str) {
+    for (int i = 0; i < w.Length; i++) {
+        str[i] = w.TabWord[i];
+    }
+    str[w.Length] = '\0';
 }

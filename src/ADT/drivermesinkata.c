@@ -5,11 +5,10 @@ int main() {
     char fileName[100];
     boolean fromFile;
 
-    // Pilih mode input
     printf("Pilih mode input (1: stdin, 2: file): ");
     int mode;
     scanf("%d", &mode);
-    getchar(); // Mengonsumsi karakter newline sisa
+    getchar();
 
     if (mode == 2) {
         fromFile = true;
@@ -22,7 +21,6 @@ int main() {
         startKata();
     }
 
-    // Proses dan tampilkan kata-kata
     printf("Hasil pembacaan kata:\n");
     while (!EndWord) {
         displayKata(currentWord, true);

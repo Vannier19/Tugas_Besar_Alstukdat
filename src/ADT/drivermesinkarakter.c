@@ -1,14 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ADT_Mesin_Karakter.h"
 
 int main() {
-    // start();
-
-    // while(!isEOP()) {
-    //     printf("%c", currentChar);
-    //     ADV();
-    // }
-
 
     char fileName[100];
 
