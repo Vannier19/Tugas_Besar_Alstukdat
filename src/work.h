@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "../ADT/mesinkata.h"
-#include "../save/save.h"
+#include "../ADT/ADT_Kustom.h"
 
 void work();
 /*  I.S. Pengguna memiliki daftar pekerjaan yang tersedia untuk dipilih.
