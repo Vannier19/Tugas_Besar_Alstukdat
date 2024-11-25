@@ -107,36 +107,31 @@ void register_user() {
     }
 
     Word username, password;
-    char kataSkrng[MAX_LEN];
+    char usernameStr[MAX_LEN];
+    char passwordStr[MAX_LEN];
+    
     printf("Username: ");
     startKata();
-    // wordToString(currentWord, kataSkrng);
-
-    // printf("%s", kataSkrng);
-    // copyKata();  // Mengambil username
     username = currentWord;
-    // wordToString(username, kataSkrng);
-
+    wordToString(username, usernameStr);
+    
     printf("Password: ");
     startKata();
     password = currentWord;
-    // copyKata(currentWord, &password);  // Mengambil password
-
-    wordToString(username, kataSkrng);
+    wordToString(password, passwordStr);
 
     if (is_username_exists(users, jumlahUsers, &username)) {
-        printf("Akun dengan username %s gagal dibuat. Silakan lakukan REGISTER ulang.\n", kataSkrng);
+        printf("Akun dengan username %s gagal dibuat. Silakan lakukan REGISTER ulang.\n", usernameStr);
         return;
     }
 
-    // Menyimpan username dan password ke dalam users
-    copyString(&username, &users[jumlahUsers].name);
-    copyString(&password, &users[jumlahUsers].password);
-    users[jumlahUsers].money = 0; // Nilai default saldo
+    // Simpan data user baru
+    copyString(users[jumlahUsers].name, usernameStr);
+    copyString(users[jumlahUsers].password, passwordStr);
+    users[jumlahUsers].money = 0;
     jumlahUsers++;
 
-    // write_user_to_file(users, jumlahUsers, TXT_FILE);
-    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", kataSkrng);
+    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", usernameStr);
 }
 
 // Fungsi LOGIN
@@ -146,29 +141,38 @@ void login_user() {
         return;
     }
 
-    if (logged_in_user.Length > 0) {  // Mengecek apakah pengguna sudah login
+    if (logged_in_user.Length > 0) {
         printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", logged_in_user.TabWord);
         return;
     }
 
     Word input_username, input_password;
-    char logged_in_user[MAX_LEN];
+    char usernameStr[MAX_LEN];
+    char passwordStr[MAX_LEN];
+    
     printf("Username: ");
-    startKata();  // Membaca username
-    copyKata(&currentWord, &input_username);
-
+    startKata();
+    input_username = currentWord;
+    wordToString(input_username, usernameStr);
+    
     printf("Password: ");
-    startKata();  // Membaca password
-    copyKata(&currentWord, &input_password);
+    startKata();
+    input_password = currentWord;
+    wordToString(input_password, passwordStr);
 
-    if (is_username_exists(users, jumlahUsers, &input_username)) {
-        printf("Username atau password salah.\n");
-        return;
+    // Cek username dan password
+    for (int i = 0; i < jumlahUsers; i++) {
+        if (compareStrings(users[i].name, usernameStr) && 
+            compareStrings(users[i].password, passwordStr)) {
+            // Login berhasil
+            copyString(logged_in_user.TabWord, usernameStr);
+            logged_in_user.Length = stringLength(usernameStr);
+            printf("Anda telah login ke PURRMART sebagai %s.\n", usernameStr);
+            return;
+        }
     }
-    else {  // Login berhasil
-        wordToString(input_username, logged_in_user); // Menyimpan username yang login
-        printf("Anda telah login ke PURRMART sebagai %s.\n", logged_in_user);
-    }
+    
+    printf("Username atau password salah.\n");
 }
 
 // Fungsi untuk LOGOUT
