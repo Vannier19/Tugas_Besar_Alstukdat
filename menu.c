@@ -70,70 +70,70 @@ void quit_program() {
 }
 
 void menu_welcome() {
-    
+
 }
 
-// Fungsi utama
-int main() {
-    Word command;
-
-    Barang barang[MAX_ITEMS];
-    User users[MAX_ITEMS];
-    int jumlahBarang, jumlahUser;
-
-    // Menampilkan Welcome Menu
-    welcome();
-
-    while (1) {
-        printf(">> ");
-        startKata(); // Memulai Mesin Kata
-        command = currentWord;
-        char namaFile[100];
-
-        // printf("%c", command);
-
-        if (isKataEqual(command, (Word){"START", 5})) {
-            start_session();
-            break;
-        } else if (isKataEqual(command, (Word){"LOAD", 4})) {
-            printf("Masukkan nama file: ");
-            ADVKata();
-            wordToString(currentWord, namaFile);
-            if (LOAD_Barang(namaFile, items, &jumlahBarang)) {
-                LOAD_User(namaFile, users, &jumlahUser);
-                session_active = 1;
-                printf("Command yang tersedia: LOGIN, REGISTER, HELP\n");
-            }
-            break;
-        } else if (isKataEqual(command, (Word){"HELP", 4})) {
-            help_welcome();
-        } else if (isKataEqual(command, (Word){"QUIT", 4})) {
-            quit_program();
-            return 0;
-        } else {
-            printf("%s", namaFile);
-            printf("Command tidak dikenali. Gunakan START, LOAD, atau HELP.\n");
-        }
-    }
-
-    while (session_active) {
-        printf(">> ");
-        startKata(); // Memulai Mesin Kata
-        command = currentWord;
-
-        if (isKataEqual(command, (Word){"REGISTER", 8})) {
-            register_user();
-        } else if (isKataEqual(command, (Word){"LOGIN", 5})) {
-            login_user();
-        } else if (isKataEqual(command, (Word){"HELP", 4})) {
-            help_login();
-        } else if (isKataEqual(command, (Word){"QUIT", 4})) {
-            quit_program();
-            return 0;
-        } else {
-            printf("Command tidak dikenali. Gunakan REGISTER, LOGIN, HELP, atau QUIT.\n");
-        }
-    }
-
-    return 0;
-}
+// // Fungsi utama
+// int main() {
+//     Word command;
+// 
+//     Barang barang[MAX_ITEMS];
+//     User users[MAX_ITEMS];
+//     int jumlahBarang, jumlahUser;
+// 
+//     // Menampilkan Welcome Menu
+//     welcome();
+// 
+//     while (1) {
+//         printf(">> ");
+//         startKata(); // Memulai Mesin Kata
+//         command = currentWord;
+//         char namaFile[100];
+// 
+//         // printf("%c", command);
+// 
+//         if (isKataEqual(command, (Word){"START", 5})) {
+//             start_session();
+//             break;
+//         } else if (isKataEqual(command, (Word){"LOAD", 4})) {
+//             printf("Masukkan nama file: ");
+//             ADVKata();
+//             wordToString(currentWord, namaFile);
+//             if (LOAD_Barang(namaFile, items, &jumlahBarang)) {
+//                 LOAD_User(namaFile, users, &jumlahUser);
+//                 session_active = 1;
+//                 printf("Command yang tersedia: LOGIN, REGISTER, HELP\n");
+//             }
+//             break;
+//         } else if (isKataEqual(command, (Word){"HELP", 4})) {
+//             help_welcome();
+//         } else if (isKataEqual(command, (Word){"QUIT", 4})) {
+//             quit_program();
+//             return 0;
+//         } else {
+//             printf("%s", namaFile);
+//             printf("Command tidak dikenali. Gunakan START, LOAD, atau HELP.\n");
+//         }
+//     }
+// 
+//     while (session_active) {
+//         printf(">> ");
+//         startKata(); // Memulai Mesin Kata
+//         command = currentWord;
+// 
+//         if (isKataEqual(command, (Word){"REGISTER", 8})) {
+//             register_user();
+//         } else if (isKataEqual(command, (Word){"LOGIN", 5})) {
+//             login_user();
+//         } else if (isKataEqual(command, (Word){"HELP", 4})) {
+//             help_login();
+//         } else if (isKataEqual(command, (Word){"QUIT", 4})) {
+//             quit_program();
+//             return 0;
+//         } else {
+//             printf("Command tidak dikenali. Gunakan REGISTER, LOGIN, HELP, atau QUIT.\n");
+//         }
+//     }
+// 
+//     return 0;
+// }
