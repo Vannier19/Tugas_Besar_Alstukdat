@@ -13,11 +13,9 @@ bool LOAD_Barang(char *filename, Barang barang[], int *jumlahBarang) {
         printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
         return false;
     }
-
     
     *jumlahBarang = kataToInt(currentWord);
     printf("Jumlah barang: %d\n", *jumlahBarang);
-    
     
     for (int i = 0; i < *jumlahBarang; i++) {
         // Baca harga
@@ -42,53 +40,61 @@ bool LOAD_Barang(char *filename, Barang barang[], int *jumlahBarang) {
     return true;
 }
 
-
 bool LOAD_User(char *filename, User users[], int *jumlahUser) {
-    
-    ADVFileKata();
+    // Pastikan pointer file sudah berada di bagian data user
+    if (!EndWord) {
+        ADVKata(); // Pindahkan pointer ke kata berikutnya
+    }
+
     if (EndWord) {
         printf("Data user tidak ditemukan.\n");
         return false;
     }
-    
-    *jumlahUser = kataToInt(currentWord);
-    
-    
+
+    // Membaca jumlah user
+    *jumlahUser = kataToInt(currentWord); 
+    printf("Jumlah user: %d\n", *jumlahUser);
+
+    // Loop untuk membaca data setiap user
     for (int i = 0; i < *jumlahUser; i++) {
-        
-        ADVFileKata();
+        // Membaca uang
+        ADVKata();
         if (EndWord) {
-            printf("Format file user salah.\n");
+            printf("Format file user salah: uang user ke-%d tidak ditemukan.\n", i + 1);
             return false;
         }
         users[i].money = kataToInt(currentWord);
+        // printf("uang: %d\n", users[i].money);
 
-        
-        ADVFileKata();
+        // Membaca nama user
+        ADVKata();
         if (EndWord) {
-            printf("Format file user salah.\n");
+            printf("Format file user salah: nama user ke-%d tidak ditemukan.\n", i + 1);
             return false;
         }
         wordToString(currentWord, users[i].name);
+        // printf("uang: %s\n", users[i].name);
 
-        
+        // Membaca password user
         ADVFileKata();
         if (EndWord && i != *jumlahUser - 1) {
-            printf("Format file user salah.\n");
+            printf("Format file user salah: password user ke-%d tidak ditemukan.\n", i + 1);
             return false;
         }
         wordToString(currentWord, users[i].password);
+        // printf("password: %s\n", users[i].password);
     }
 
     printf("Data user berhasil dibaca.\n");
     return true;
 }
 
+
 // int main() {
 //     Barang barang[MAX_ITEMS];
 //     User users[MAX_ITEMS];
 //     int jumlahBarang, jumlahUser;
-// 
+
 //     // Load data barang dan user
 //     if (LOAD_Barang("default.txt", barang, &jumlahBarang)) {
 //         printf("\nDaftar Barang (%d item):\n", jumlahBarang);
@@ -96,7 +102,7 @@ bool LOAD_User(char *filename, User users[], int *jumlahUser) {
 //             printf("%d. %s (Harga: %d)\n", i+1, barang[i].name, barang[i].price);
 //         }
 //         printf("\n");
-//         
+        
 //         if (LOAD_User("default.txt", users, &jumlahUser)) {
 //             printf("\nDaftar User (%d user):\n", jumlahUser);
 //             for (int i = 0; i < jumlahUser; i++) {
@@ -105,6 +111,6 @@ bool LOAD_User(char *filename, User users[], int *jumlahUser) {
 //             }
 //         }
 //     }
-// 
+
 //     return 0;
 // }
