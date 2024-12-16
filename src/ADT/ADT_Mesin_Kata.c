@@ -28,17 +28,31 @@ void startKata() {
 }
 
 void ADVKata() {
-    ignoreBlanks();
-    if (currentChar == EOF || currentChar == MARK) {
+    ignoreBlanks(); // Abaikan spasi dan karakter kosong sebelum membaca kata
+    if (currentChar == MARK || isEOP()) { // Jika akhir file
         EndWord = true;
-    }
-    else {
-        copyKata();
+    } else {
+        copyKata(); // Salin kata dari file ke currentWord
         EndWord = false;
     }
 }
 
 void copyKata() {
+    currentWord.Length = 0; // Reset panjang kata
+
+    // Loop selama bukan akhir file, bukan spasi, dan bukan newline
+    while (!isEOP() && currentChar != BLANK && currentChar != '\n' && currentChar != MARK) {
+        if (currentWord.Length < NMax) { // Pastikan panjang kata tidak melebihi batas
+            currentWord.TabWord[currentWord.Length++] = currentChar;
+        }
+        ADV(); // Pindahkan ke karakter berikutnya
+    }
+    currentWord.TabWord[currentWord.Length] = '\0'; // Tambahkan terminator string
+}
+
+
+
+void copyFileKata() {
     currentWord.Length = 0;
     boolean isNumber = true;
 
@@ -74,9 +88,24 @@ void startFileKata(const char* file_name) {
     }
     else {
         EndWord = false;
-        copyKata();
+        copyFileKata();
     }
 }
+
+// void ADVFileKata() {
+//     // resetCurrentKata();
+//     ignoreBlanks();
+//     // EndWord = false;
+
+//     if (isEOP() || currentChar == MARK) {
+//         EndWord = true;
+//     }
+//     else {
+//         copyKata();
+//         // EndWord = false;
+//         // copySentence();
+//     }
+// }
 
 void ADVFileKata() {
     ignoreBlanks();
@@ -84,7 +113,7 @@ void ADVFileKata() {
         EndWord = true;
     }
     else {
-        copyKata();
+        copyFileKata();
     }
 }
 

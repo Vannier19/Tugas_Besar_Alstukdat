@@ -4,7 +4,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "../boolean.h"
+#include "boolean.h"
 #include "ADT_Mesin_Karakter.h"
 
 #define NMax 100
@@ -30,6 +30,9 @@ void startKata();
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
+
+// void ADVFileKata();
+void copyFileKata();
 
 void startFileKata(const char* file_name);
 /* Kata dibaca dengan prosedur STARTFILE() yang akan membaca dari file pada path, 
