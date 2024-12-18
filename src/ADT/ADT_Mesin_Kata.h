@@ -98,5 +98,8 @@ int kataToInt(Word kata);
 int isEqualChar(const char *a, const char *b);
 int compareKata(Word kata, const char *str);
 void wordToString(Word w, char *str);
+void copyString(char *destination, const char *source);
+int stringLength(char *str);
+int compareStrings(char *str1, char *str2);
 
 #endif

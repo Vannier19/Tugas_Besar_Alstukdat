@@ -211,3 +211,33 @@ void wordToString(Word w, char *str) {
     }
     str[w.Length] = '\0';
 }
+
+void copyString(char *destination, const char *source) {
+    int i = 0;
+    // Menyalin setiap karakter hingga menemukan null terminator
+    while (source[i] != '\0') {
+        destination[i] = source[i];
+        i++;
+    }
+    // Menambahkan null terminator pada akhir string tujuan
+    destination[i] = '\0';
+}
+
+int stringLength(char *str) {
+    int len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
+
+int compareStrings(char *str1, char *str2) {
+    int i = 0;
+    while (str1[i] != '\0' && str2[i] != '\0') {
+        if (str1[i] != str2[i]) {
+            return 0; // Tidak sama
+        }
+        i++;
+    }
+    return (str1[i] == '\0' && str2[i] == '\0'); // Sama jika keduanya null-terminated
+}
