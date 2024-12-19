@@ -27,6 +27,21 @@ void startKata() {
     }
 }
 
+void startKalimat() {
+    start();
+    ignoreBlanks();
+    if (currentChar == EOF) {
+        EndWord = true;
+    }
+    else if (currentChar == MARK || currentChar == '\n') {
+        EndWord = true;
+    }
+    else {
+        EndWord = false;
+        copyFileKata();
+    }
+}
+
 void ADVKata() {
     ignoreBlanks(); // Abaikan spasi dan karakter kosong sebelum membaca kata
     if (currentChar == MARK || isEOP()) { // Jika akhir file

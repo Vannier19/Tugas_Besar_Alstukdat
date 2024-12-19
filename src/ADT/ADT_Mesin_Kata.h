@@ -31,6 +31,8 @@ void startKata();
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
+void startKalimat();
+
 // void ADVFileKata();
 void copyFileKata();
 
