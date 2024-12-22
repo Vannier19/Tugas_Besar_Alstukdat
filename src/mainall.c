@@ -132,7 +132,7 @@ int main() {
 
                     if (users.Count == 0) {
                         hanyaStart = 1;
-                        LOAD_Barang("default.txt", &barang);
+                        LOAD_Barang("../save/default.txt", &barang);
                         printf("\nSesi dimulai. Silakan melakukan login atau register.\n");
                     }
                     else {
