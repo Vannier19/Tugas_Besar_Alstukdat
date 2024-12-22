@@ -1,49 +1,78 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include "ADT_Mesin_Kata.h"
-#include "ADT_Kustom.h"
+#include "load.h"
+
 #define MAX_LEN 100
 #define MAX_ITEMS 100
 
+// boolean START_READ_FILE(char *filename, ListDin *barang, List *users) {
+//     LOAD_Barang(&filename, &barang);
 
-bool LOAD_Barang(char *filename, Barang barang[], int *jumlahBarang) {
+//     if (!EndWord) {
+//         ADVKata();
+//     }
+//     if (EndWord) {
+//         printf("Data user tidak ditemukan.\n");
+//         return false;
+//     }
+
+//     int jumlahUser = kataToInt(currentWord);
+//     users->Count = jumlahUser;
+
+//     if (jumlahUser > MAX_USERS) { 
+//         printf("Jumlah user melebihi kapasitas List.\n");
+//         return false;
+//     }
+
+//     for (int i = 0; i < jumlahUser; i++) {
+//         // Baca uang user
+//         ADVKata();
+//         users->A[i].money = kataToInt(currentWord);
+
+//         // Baca nama user
+//         ADVKata();
+//         wordToString(currentWord, users->A[i].name);
+
+//         // Baca password user
+//         ADVKata();
+//         wordToString(currentWord, users->A[i].password);
+//     }
+// }
+
+boolean LOAD_Barang(char *filename, ListDin *barang) {
+    ElType Temp;
+
     startFileKata(filename);
-    //printf("Membaca data barang dari file %s...\n", filename);
     if (EndWord) {
         printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
         return false;
     }
-    
-    *jumlahBarang = kataToInt(currentWord);
-    printf("Jumlah barang: %d\n", *jumlahBarang);
-    
-    for (int i = 0; i < *jumlahBarang; i++) {
-        // Baca harga
-        ADVFileKata();
-        if (EndWord) {
-            printf("Format file salah. PURRMART gagal dijalankan.\n");
-            return false;
-        }
-        barang[i].price = kataToInt(currentWord);
-        //printf("Harga barang: %d\n", barang[i].price);
-        
-        ADVFileKata();
-        if (EndWord && i != *jumlahBarang - 1) {
-            printf("Format file salah. PURRMART gagal dijalankan.\n");
-            return false;
-        }
-        wordToString(currentWord, barang[i].name);
-        //printf("Nama barang: %s\n", barang[i].name);
-    }
 
-    printf("Data barang berhasil dibaca. PURRMART berhasil dijalankan.\n");
+    int jumlahBarang = kataToInt(currentWord);
+
+    if (jumlahBarang > barang->capacity) {
+        printf("Jumlah barang melebihi kapasitas ListDin.\n");
+        return false;
+    }
+    
+    for (int i = 0; i < jumlahBarang; i++) {
+        // Baca harga barang
+        ADVFileKata();
+        // ADVFileKata();
+        Temp.price = kataToInt(currentWord);
+        // printf("Harga barang: %d\n", Temp.price);
+
+        // Baca nama barang
+        ADVFileKata();
+        wordToString(currentWord, Temp.name);
+        // printf("Nama barang: %s\n", Temp.name);
+        insertLast(barang, Temp);
+    }
     return true;
 }
 
-bool LOAD_User(char *filename, User users[], int *jumlahUser) {
-    // Pastikan pointer file sudah berada di bagian data user
+boolean LOAD_User(char *filename, List *users) {
     if (!EndWord) {
-        ADVKata(); // Pindahkan pointer ke kata berikutnya
+        ADVKata();
     }
 
     if (EndWord) {
@@ -51,66 +80,207 @@ bool LOAD_User(char *filename, User users[], int *jumlahUser) {
         return false;
     }
 
-    // Membaca jumlah user
-    *jumlahUser = kataToInt(currentWord); 
-    printf("Jumlah user: %d\n", *jumlahUser);
+    int jumlahUser = kataToInt(currentWord);
+    users->Count = jumlahUser;
+    // printf("Jumlah user: %d\n", jumlahUser);
 
-    // Loop untuk membaca data setiap user
-    for (int i = 0; i < *jumlahUser; i++) {
-        // Membaca uang
-        ADVKata();
-        if (EndWord) {
-            printf("Format file user salah: uang user ke-%d tidak ditemukan.\n", i + 1);
-            return false;
-        }
-        users[i].money = kataToInt(currentWord);
-        // printf("uang: %d\n", users[i].money);
-
-        // Membaca nama user
-        ADVKata();
-        if (EndWord) {
-            printf("Format file user salah: nama user ke-%d tidak ditemukan.\n", i + 1);
-            return false;
-        }
-        wordToString(currentWord, users[i].name);
-        // printf("uang: %s\n", users[i].name);
-
-        // Membaca password user
-        ADVFileKata();
-        if (EndWord && i != *jumlahUser - 1) {
-            printf("Format file user salah: password user ke-%d tidak ditemukan.\n", i + 1);
-            return false;
-        }
-        wordToString(currentWord, users[i].password);
-        // printf("password: %s\n", users[i].password);
+    if (jumlahUser > MAX_USERS) {  // Check against MAX_USERS instead of Count
+        printf("Jumlah user melebihi kapasitas List.\n");
+        return false;
     }
 
-    printf("Data user berhasil dibaca.\n");
+    for (int i = 0; i < jumlahUser; i++) {
+        // Baca uang user
+        ADVKata();
+        users->A[i].money = kataToInt(currentWord);
+        // printf("Uang user: %d\n", users->A[i].money);
+
+        // Baca nama user
+        ADVKata();
+        wordToString(currentWord, users->A[i].name);
+        // printf("Nama user: %s\n", users->A[i].name);
+
+        // Baca password user
+        ADVKata();
+        wordToString(currentWord, users->A[i].password);
+        // printf("Password user: %s\n", users->A[i].password);
+
+        //skip history
+        ADVKata();
+        int jumlahHistoryUser = kataToInt(currentWord);
+        for (int j = 0; j < jumlahHistoryUser; j++) {
+            ADVFileKata();
+            ADVFileKata();
+        }
+
+        //skip wishlist
+        ADVFileKata();
+        int jumlahWishlist = kataToInt(currentWord);
+        for (int j = 0; j < jumlahWishlist; j++) {
+            ADVFileKata();
+        }
+    }
+
     return true;
 }
 
+boolean LOAD_History(char *filename, User users[], int jumlahUser, Stack *history) {
+    startFileKata(filename);
+    if (EndWord) {
+        printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
+        return false;
+    }
+
+    int jumlahBarang = kataToInt(currentWord);
+    for (int i = 0; i < jumlahBarang; i++) {
+        ADVFileKata();
+        ADVFileKata();
+    }
+
+    ADVFileKata();
+    if (kataToInt(currentWord) != jumlahUser) {
+        printf("Jumlah user tidak sesuai.\n");
+        return false;
+    }
+
+    for (int i = 0; i < jumlahUser; i++) {
+        CreateEmptyStack(&users[i].riwayat_pembelian);
+
+        // skip user
+        ADVFileKata(); 
+        // printf("%s\n", currentWord.TabWord);
+        ADVFileKata();
+        // printf("%s\n", currentWord.TabWord); 
+
+        ADVKata();
+        // printf("%s\n", currentWord.TabWord);
+        int jumlahHistoryUser = kataToInt(currentWord);
+        // printf("Jumlah pembelian user %s: %d\n", users[i].name, jumlahHistoryUser);
+
+        for (int j = 0; j < jumlahHistoryUser; j++) {
+            ItemStack historyItem;
+
+            ADVFileKata();
+            // printf("%s\n", currentWord.TabWord);
+            if (!EndWord) {
+                historyItem.item.price = kataToInt(currentWord);
+            }
+
+            // Baca nama item
+            ADVFileKata();
+            // printf("%s\n", currentWord.TabWord);
+            if (!EndWord) {
+                wordToString(currentWord, historyItem.item.name);
+            }
+
+            PushStack(&users[i].riwayat_pembelian, historyItem);
+        }
+        // skip wishlist
+        ADVFileKata();
+        int jumlahWishlist = kataToInt(currentWord);
+        for (int k = 0; k < jumlahWishlist; k++) {
+            ADVFileKata();
+        }
+        // printf("Daftar pembelian user %s:\n", users[i].name);
+        // printf("Jumlah pembelian: %d\n", jumlahHistoryUser);
+    }
+
+    return true;
+}
+
+boolean LOAD_Wishlist(char *filename, User users[], int jumlahUser, ListLinier *wishlist) {
+    startFileKata(filename);
+    if (EndWord) {
+        printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
+        return false;
+    }
+
+    int jumlahBarang = kataToInt(currentWord);
+    for (int i = 0; i < jumlahBarang; i++) {
+        ADVFileKata();
+        ADVFileKata();
+    }
+
+    ADVFileKata();
+    if (kataToInt(currentWord) != jumlahUser) {
+        printf("Jumlah user tidak sesuai.\n");
+        return false;
+    }
+
+    for (int i = 0; i < jumlahUser; i++) {
+        CreateEmptyLinier(&users[i].wishlist);
+
+        ADVFileKata(); // Skip money
+        ADVFileKata(); // Skip username
+        // ADVFileKata(); // Skip password
+
+        // Skip history
+        ADVKata();
+        int jumlahHistoryUser = kataToInt(currentWord);
+        for (int j = 0; j < jumlahHistoryUser; j++) {
+            ADVFileKata();
+            ADVFileKata();
+        }
+
+        // Read wishlist
+        ADVFileKata();
+        int jumlahWishlist = kataToInt(currentWord);
+        // printf("Jumlah wishlist user %s: %d\n", users[i].name, jumlahWishlist);
+
+        for (int k = 0; k < jumlahWishlist; k++) {
+            ADVFileKata();
+            addressList newNode = Alokasi(currentWord);
+            if (newNode != NilList) {
+                InsertLast(&users[i].wishlist, newNode);
+            }
+        }
+    }
+
+    return true;
+}
+
+boolean LOAD(char *filename, ListDin *barang, List *users, Stack *history, ListLinier *wishlist) {
+    if (!LOAD_Barang(filename, barang)) {
+        printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
+        return false;
+    }
+
+    if (!LOAD_User(filename, users)) {
+        printf("Data user tidak ditemukan.\n");
+        return false;
+    }
+
+    if (!LOAD_History(filename, users->A, users->Count, history)) {
+        printf("Riwayat pembelian gagal dimuat.\n");
+        return false;
+    }
+
+    if (!LOAD_Wishlist(filename, users->A, users->Count, wishlist)) {
+        printf("Wishlist gagal dimuat.\n");
+        return false;
+    }
+    printf("\nSave file berhasil dibaca. PURRMART berhasil dijalankan.\n\n");
+    return true;
+}
 
 // int main() {
-//     Barang barang[MAX_ITEMS];
-//     User users[MAX_ITEMS];
-//     int jumlahBarang, jumlahUser;
+//     ListDin barang;
+//     List users;
 
-//     // Load data barang dan user
-//     if (LOAD_Barang("default.txt", barang, &jumlahBarang)) {
-//         printf("\nDaftar Barang (%d item):\n", jumlahBarang);
-//         for (int i = 0; i < jumlahBarang; i++) {
-//             printf("%d. %s (Harga: %d)\n", i+1, barang[i].name, barang[i].price);
-//         }
-//         printf("\n");
+//     CreateListDin(&barang, MAX_ITEMS);
+//     CreateListUser(&users);
+
+//     if (LOAD("konfigurasi.txt", &barang, &users)) {
+//         printf("Semua data berhasil dimuat!\n");
         
-//         if (LOAD_User("default.txt", users, &jumlahUser)) {
-//             printf("\nDaftar User (%d user):\n", jumlahUser);
-//             for (int i = 0; i < jumlahUser; i++) {
-//                 printf("%d. %s (Money: %d, Password: %s)\n", 
-//                        i+1, users[i].name, users[i].money, users[i].password);
-//             }
-//         }
+//     } else {
+//         printf("Gagal memuat beberapa data.\n");
+//         return 1;
 //     }
+//     // printf("Jumlah barang: %d\n", barang.nEff);
+
+//     // Bebasin memori
+//     dealocateList(&barang);
 
 //     return 0;
 // }

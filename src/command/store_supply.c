@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "store_supply.h"
-#include "store_req.h"
 
 Barang peek(Queue *q) {
     if (isKosong(*q)) {

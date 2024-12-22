@@ -1,71 +1,90 @@
 #include <stdio.h>
 #include "SAVE.h"
 
-#define MAX_ITEMS 100
-#define MAX_USERS 50
-#define MAX_LEN 100
+// Fungsi untuk menyimpan barang ke dalam file sesuai dengan spesifikasi
+void saveBarang(ListDin listBarang, const char *filename) {
+    FILE *file = fopen(filename, "a"); 
+    if (file != NULL) {
+        // Simpan jumlah barang
+        fprintf(file, "%d\n", listBarang.nEff);
 
-// typedef struct {
-//   char name[MAX_LEN];
-//   char password[MAX_LEN];
-//   int money;
-// } User;
-
-// typedef struct {
-//   char name[MAX_LEN];
-//   int price;
-// } Barang;
-
-void SAVE_TO_FILE(Barang barang[], int jumlahBarang, User users[], int jumlahUsers, char *namaFile) {
-    // KAMUS LOKAL
-    FILE *saveFile;
-    int i, j;
-
-    // ALGORITMA
-    saveFile = fopen(namaFile, "w"); // Membuka file untuk ditulis
-    if (saveFile == NULL) {
-        printf("Gagal membuka file untuk menyimpan data.\n");
-        return;
-    }
-
-    // Menulis jumlah barang
-    fprintf(saveFile, "%d\n", jumlahBarang);
-    
-    // Menulis data barang
-    for (i = 0; i < jumlahBarang; i++) {
-        fprintf(saveFile, "%d ", barang[i].price);
-
-        // Menulis nama barang dengan benar (tanpa tanda tambahan)
-        for (j = 0; barang[i].name[j] != '\0'; j++) {
-            fputc(barang[i].name[j], saveFile);
+        // Simpan data barang dengan format <Harga> <Nama barang>
+        for (int i = 0; i < listBarang.nEff; i++) {
+            Barang b = ELMT(listBarang, i); // Ambil barang dari ListDin
+            fprintf(file, "%d %s\n", b.price, b.name); // Format: <Harga> <Nama barang>
         }
 
-        fprintf(saveFile, "\n");
+        fclose(file);
+    } else {
+        printf("Error: Cannot open file for saving barang data.\n");
     }
-
-    // Menulis jumlah pengguna
-    fprintf(saveFile, "%d\n", jumlahUsers);
-    
-    // Menulis data pengguna
-    for (i = 0; i < jumlahUsers; i++) {
-        fprintf(saveFile, "%d %s %s\n", users[i].money, users[i].name, users[i].password);
-    }
-
-    fclose(saveFile); // Menutup file
-    printf("Data berhasil disimpan ke file %s.\n", namaFile);
 }
-// Barang barang[] = {
-//     {"AK47", 10},
-//     {"Lalabu", 20},
-//     {"Ayam Goreng Crisbar", 20}
-// };
 
-// User users[] = {
-//     {"admin", "alstrukdatkeren", 100},
-//     {"praktikan", "kerenbangetkak", 25}
-// };
+// Fungsi untuk menyimpan data pengguna dan riwayat pembelian serta wishlist sesuai dengan spesifikasi
+void saveUsers(List users, const char *filename) {
+    FILE *file = fopen(filename, "a");
+    if (file != NULL) {
+        // Simpan jumlah pengguna
+        fprintf(file, "%d\n", users.Count); // Simpan jumlah pengguna
 
-// int main() {
-//     SAVE_TO_FILE(barang, 3, users, 2, "data.txt");
-//     return 0;
-// }
+        // Simpan data setiap pengguna
+        for (int i = 0; i < users.Count; i++) {
+            User user = users.A[i];
+
+            Stack riwayat = users.A->riwayat_pembelian;
+
+            // Simpan jumlah riwayat pembelian pengguna
+            int historyCount = LengthStack(riwayat);
+            fprintf(file, "%d\n", historyCount); // Menyimpan jumlah riwayat pembelian
+
+            // Stack sementara untuk membalikkan elemen
+            Stack tempStack;
+            CreateEmptyStack(&tempStack);
+
+            // Proses elemen dari riwayat
+            ItemStack item;
+            while (!IsEmptyStack(riwayat)) {
+                PopStack(&riwayat, &item);            // Pop dari stack riwayat
+                PushStack(&tempStack, item);          // Simpan ke stack sementara
+                // Format output sesuai spesifikasi
+                fprintf(file, "%d %s\n", item.totalBiaya, item.item.name); 
+            }
+
+            // Kembalikan stack riwayat ke keadaan semula
+            while (!IsEmptyStack(tempStack)) {
+                PopStack(&tempStack, &item);
+                PushStack(&riwayat, item);
+            }
+
+            ListLinier wishlist = users.A->wishlist; // Wishlist dari pengguna
+
+            // Simpan jumlah wishlist pengguna
+            int wishlistCount = NbElmt(wishlist);
+            fprintf(file, "%d\n", wishlistCount); // Menyimpan jumlah wishlist
+            
+            addressList P;
+            P = First(wishlist);
+            // Simpan wishlist pengguna (format <Nama barang>)
+            while (P != NilList) {
+                char *w;
+                w = Info(P).TabWord;
+                P = Next(P);
+                // Menulis nama barang ke file
+                fprintf(file, "%s\n", w); // Format: <Nama barang>
+            }
+        }
+
+        fclose(file);
+    } else {
+        printf("Error: Cannot open file for saving user data.\n");
+    }
+}
+
+// Fungsi utama untuk menyimpan semua data (barang dan pengguna) ke dalam file
+void save(ListDin listBarang, List users, const char *filename) {
+    // Simpan data barang ke file
+    saveBarang(listBarang, filename);
+
+    // Simpan data pengguna ke file
+    saveUsers(users, filename);
+}

@@ -1,14 +1,14 @@
 #ifndef STOREREQ_H
 #define STOREREQ_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
-#include "ADT_Mesin_Kata.h"
-#include "ADT_Queue.h"
-#include "ADT_Array_Dinamis.h"
-#include "ADT_Kustom.h"
+#include "../boolean.h"
+#include "../ADT/ADT_Mesin_Kata.h"
+#include "../ADT/ADT_Queue.h"
+#include "../ADT/ADT_Array_Dinamis.h"
+#include "../ADT/ADT_Kustom.h"
+#include "../ADT/ADT_Kustom_Barang.h"
 
 // Fungsi untuk membandingkan string tanpa string.h
 boolean isStringEqual(char* str1, char* str2);
@@ -19,15 +19,15 @@ void clearNewline(char* str);
 // Fungsi untuk menyalin string tanpa string.h
 void myStrcpy(char* dest, const char* src);
 
-boolean isKosong(Queue q);
+// boolean isKosong(Queue q);
 
-void CreateQueue(Queue *q);
+// void CreateQueue(Queue *q);
 
-int length(Queue q);
+// int length(Queue q);
 
-void enqueue(Queue *q, ElType val);
+// void enqueue(Queue *q, ElType val);
 
-void dequeue(Queue *q, ElType *val);
+// void dequeue(Queue *q, ElType *val);
 
 void CreateListDin(ListDin *l, int capacity);
 

@@ -22,7 +22,7 @@ void startFile(const char *file_name) {
     pita = fopen(file_name, "r");
     if (pita == NULL){
         printf("File %s tidak ditemukan atau tidak dapat dibuka.\n", file_name);
-        exit(1);
+        return;
     }
     ADV();
 }

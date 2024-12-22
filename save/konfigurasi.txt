@@ -1,0 +1,24 @@
+5
+10 AK47
+20 Lalabu
+20 Ayam Goreng Crisbar
+500 Meong
+121 ken
+2
+1000 ken kenken
+6
+40 AK47
+100 AK47
+35 Lalabu
+10 AK47
+500 Meong
+20 Ayam Goreng Crisbar
+2
+Ayam Goreng Crisbar
+AK47
+25 user2 kerenbangetkak
+2
+24 alst
+8 sss
+1
+Meong

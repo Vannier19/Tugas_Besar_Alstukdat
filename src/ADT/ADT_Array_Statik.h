@@ -19,63 +19,63 @@ typedef struct {
 } List;
 
 // ********** KONSTRUKTOR **********
-void CreateList(List *L);
+void CreateListUser(List *L);
 /* I.S. sembarang */
 /* F.S. Terbentuk list L kosong dengan elemen efektif 0 */
 
 // ********** TEST KOSONG / PENUH **********
-boolean IsEmpty(List L);
+boolean IsEmptyUser(List L);
 /* Mengirimkan true jika list kosong */
 
-boolean IsFull(List L);
+boolean IsFullUser(List L);
 /* Mengirimkan true jika list penuh */
 
 // ********** OPERASI DASAR **********
-int Length(List L);
+int LengthUser(List L);
 /* Mengirimkan jumlah elemen efektif dalam list */
 
-User Get(List L, int idx);
+User GetUser(List L, int idx);
 /* Prekondisi: idx adalah indeks valid dalam list */
 /* Mengembalikan elemen User pada indeks ke-idx */
 
-void Set(List *L, int idx, User U);
+void SetUser(List *L, int idx, User U);
 /* Mengubah elemen User pada indeks ke-idx dengan U */
 
 // ********** SELEKTOR INDEKS **********
-int IdxFirst(List L);
+int IdxFirstUser(List L);
 /* Mengirimkan indeks elemen pertama (0 jika list tidak kosong) */
 
-int IdxLast(List L);
+int IdxLastUser(List L);
 /* Mengirimkan indeks elemen terakhir (Count - 1 jika list tidak kosong) */
 
-boolean IsIdxValid(int idx);
+boolean IsIdxValidUser(int idx);
 /* Mengirimkan true jika idx berada dalam rentang indeks array [0..MAX_USERS-1] */
 
-boolean IsIdxEff(List L, int idx);
+boolean IsIdxEffUser(List L, int idx);
 /* Mengirimkan true jika idx adalah indeks efektif dalam list */
 
 // ********** OPERASI PENAMBAHAN **********
-void InsertFirst(List *L, User U);
+void InsertFirstUser(List *L, User U);
 /* Menambahkan elemen baru di awal list */
 
-void InsertLast(List *L, User U);
+void InsertLastUser(List *L, User U);
 /* Menambahkan elemen baru di akhir list */
 
-void InsertAt(List *L, User U, int idx);
+void InsertAtUser(List *L, User U, int idx);
 /* Menambahkan elemen baru di indeks ke-idx */
 
 // ********** OPERASI PENGHAPUSAN **********
-void DeleteFirst(List *L);
+void DeleteFirstUser(List *L);
 /* Menghapus elemen pertama dari list */
 
-void DeleteLast(List *L);
+void DeleteLastUser(List *L);
 /* Menghapus elemen terakhir dari list */
 
-void DeleteAt(List *L, int idx);
+void DeleteAtUser(List *L, int idx);
 /* Menghapus elemen pada indeks ke-idx */
 
 // ********** OPERASI PENCARIAN **********
-int SearchInList(List L, Word key);
+int SearchInListUser(List L, Word key);
 /* Mencari elemen dalam list berdasarkan nama menggunakan Mesin Kata.
  * IS: List terdefinisi dan kata key terdefinisi.
  * FS: Mengembalikan indeks elemen pertama yang cocok dengan key, atau -1 jika tidak ditemukan.

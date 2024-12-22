@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <time.h>
-#include "ADT_Mesin_Kata.h"
-#include "ADT_Kustom.h"
+#include "../ADT/ADT_Mesin_Kata.h"
+#include "../ADT/ADT_Kustom.h"
 
 void work(int *saldo);
 /*  I.S. Pengguna memiliki daftar pekerjaan yang tersedia untuk dipilih.

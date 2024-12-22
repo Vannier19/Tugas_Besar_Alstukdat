@@ -1,7 +1,6 @@
-
-#include "ADT_Array_Dinamis.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "ADT_Array_Dinamis.h"
 
 #ifndef INT_MAX
 #define INT_MAX 2147483647
@@ -10,21 +9,33 @@
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create list kosong  */
-void CreateListDin(ListDin *l, int capacity)
-/* I.S. l sembarang, capacity > 0 */
-/* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
-{
-    BUFFER(*l) = NULL;
-    BUFFER(*l) = malloc(capacity * sizeof(ElType));
-    NEFF(*l) = 0;
-    CAPACITY(*l) = capacity;
-    // if(BUFFER(*l) == NULL){
-    //     printf("Error allocating memory.");
-    // }
-    // else{
-    //     printf("Success! Memory allocated.");
-    // }
+// void CreateListDin(ListDin *l, int capacity)
+// /* I.S. l sembarang, capacity > 0 */
+// /* F.S. Terbentuk list dinamis l kosong dengan kapasitas capacity */
+// {
+//     BUFFER(*l) = NULL;
+//     BUFFER(*l) = malloc(capacity * sizeof(ElType));
+//     NEFF(*l) = 0;
+//     CAPACITY(*l) = capacity;
+//     // if(BUFFER(*l) == NULL){
+//     //     printf("Error allocating memory.");
+//     // }
+//     // else{
+//     //     printf("Success! Memory allocated.");
+//     // }
+// }
+
+void CreateListDin(ListDin *barang, int capacity) {
+    barang->buffer = (Barang *)malloc(capacity * sizeof(Barang));
+    if (barang->buffer == NULL) {
+        printf("Gagal mengalokasikan memori untuk ListDin.\n");
+        exit(EXIT_FAILURE);
+    }
+    barang->capacity = capacity;
+    barang->nEff = 0; // Awalnya, jumlah elemen efektif adalah 0
 }
+
+
 
 void dealocateList(ListDin *l)
 /* I.S. l terdefinisi; */

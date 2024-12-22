@@ -1,11 +1,10 @@
 #ifndef STORE_SUPPLY_H
 #define STORE_SUPPLY_H
 
-#include "boolean.h"
+#include "../boolean.h"
+#include "../ADT/ADT_Queue.h"
+#include "../ADT/ADT_Mesin_Kata.h"
 #include "store_req.h"
-// #include "ADT_Queue.h"
-// #include "ADT_Array_Dinamis.h"
-#include "ADT_Mesin_Kata.h"
 
 // // Fungsi Queue
 // void initQueue(Queue *q, int capacity);

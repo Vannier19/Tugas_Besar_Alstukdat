@@ -1,9 +1,10 @@
 #ifndef REGLOG_H
 #define REGLOG_H
 
-#include "ADT_Mesin_Karakter.h"
-#include "ADT_Mesin_Kata.h"
-#include "ADT_Kustom.h"
+#include "../ADT/ADT_Mesin_Karakter.h"
+#include "../ADT/ADT_Mesin_Kata.h"
+#include "../ADT/ADT_Kustom.h"
+#include "../ADT/ADT_Array_Statik.h"
 
 // Deklarasi variabel global
 int session_active;  // Menandakan apakah sesi telah dimulai
@@ -13,22 +14,22 @@ Barang items[MAX_ITEMS]; // Array barang
 Word logged_in_user;  // Menyimpan username yang sedang login
 
 // Deklarasi konstanta
-#define TXT_FILE "default.txt"  // File tempat menyimpan data pengguna
+// #define TXT_FILE "default.txt"  // File tempat menyimpan data pengguna
 
 // Fungsi untuk membaca data dari file
-void read_file(const char *file_name);
+// void read_file(const char *file_name);
 
 // Fungsi untuk menulis data pengguna ke dalam file
 // void write_user_to_file(User users[], int jumlahUsers, const char *file_name);
 
 // Fungsi untuk memeriksa apakah username sudah terdaftar
-int is_username_exists(const User users[], int user_count, const Word *username);
+// int is_username_exists(const User users[], int user_count, const Word *username);
 
 // Fungsi REGISTER
-void register_user();
+void register_user(List *users, User newUser);
 
 // Fungsi LOGIN
-void login_user();
+int login_user(List users, Word *logged_in_user);
 
 // Fungsi LOGOUT
 void logout_user();

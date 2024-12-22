@@ -210,7 +210,7 @@ int isEqualChar(const char *a, const char *b) {
     return (a[i] == '\0' && b[i] == '\0');
 }
 
-int compareKata(Word kata, const char *str) {
+int compareKata(Word kata, char *str) {
     int i;
     for (i = 0; i < kata.Length && str[i] != '\0'; i++) {
         if (kata.TabWord[i] != str[i]) {
@@ -227,7 +227,7 @@ void wordToString(Word w, char *str) {
     str[w.Length] = '\0';
 }
 
-void copyString(char *destination, const char *source) {
+void copyString(char *destination, char *source) {
     int i = 0;
     // Menyalin setiap karakter hingga menemukan null terminator
     while (source[i] != '\0') {
@@ -255,4 +255,76 @@ int compareStrings(char *str1, char *str2) {
         i++;
     }
     return (str1[i] == '\0' && str2[i] == '\0'); // Sama jika keduanya null-terminated
+}
+
+int stringToInt(char *str) {
+    int num = 0;
+    for (int i = 0; str[i] != '\0'; i++) {
+        num = num * 10 + (str[i] - '0');
+    }
+    return num;
+}
+
+boolean isNumString(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] < '0' || str[i] > '9') {
+            return false;  // Jika ada karakter yang bukan angka
+        }
+    }
+    return true;
+}
+
+Word stringToWord(char *str) {
+    Word kata;
+    int i = 0;
+    
+    while (str[i] != '\0' && i < NMax - 1) {
+        kata.TabWord[i] = str[i];
+        i++;
+    }
+    kata.TabWord[i] = '\0';
+    kata.Length = i;
+    
+    return kata;
+}
+
+void split4Kata(char *kalimat, char *kata[]) {
+    int i = 0, j = 0, kataKe = 0;
+
+    // Inisialisasi semua elemen kata dengan string kosong
+    for (int k = 0; k < 4; k++) {
+        kata[k][0] = '\0';
+    }
+
+    while (kalimat[i] != '\0') {
+        if (kalimat[i] != ' ') {
+            kata[kataKe][j++] = kalimat[i];
+        } else {
+            kata[kataKe][j] = '\0'; // Akhiri kata
+            kataKe++;
+            j = 0;
+
+            if (kataKe == 4) break; // Maksimal 4 kata
+        }
+        i++;
+    }
+    kata[kataKe][j] = '\0'; // Akhiri kata terakhir
+}
+
+
+int comparePanjangString(char *str1, char *str2) {
+    int i = 0;
+    
+    while (str1[i] != '\0' && str2[i] != '\0') {
+        if (str1[i] != str2[i]) {
+            return 0;
+        }
+        i++;
+    }
+    
+    if (str1[i] == '\0' && str2[i] == '\0') {
+        return 1;
+    } else {
+        return 0;
+    }
 }

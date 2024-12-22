@@ -1,7 +1,7 @@
 #ifndef WORDL3_H
 #define WORDL3_H
 
-#include "ADT_Mesin_Kata.h"
+#include "../ADT/ADT_Mesin_Kata.h"
 
 #define MAX_ATTEMPTS 6
 #define WORD_LENGTH 5 

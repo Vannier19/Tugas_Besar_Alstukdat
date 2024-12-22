@@ -4,7 +4,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "boolean.h"
+#include "../boolean.h"
 #include "ADT_Mesin_Karakter.h"
 
 #define NMax 100
@@ -98,10 +98,15 @@ int kataToInt(Word kata);
 /* Mengembalikan nilai integer dari Word kata */
 
 int isEqualChar(const char *a, const char *b);
-int compareKata(Word kata, const char *str);
+int compareKata(Word kata, char *str);
 void wordToString(Word w, char *str);
-void copyString(char *destination, const char *source);
+void copyString(char *destination, char *source);
 int stringLength(char *str);
 int compareStrings(char *str1, char *str2);
+int stringToInt(char *str);
+boolean isNumString(char *str);
+Word stringToWord(char *str);
+void split4Kata(char *kalimat, char *kata[]);
+int comparePanjangString(char *str1, char *str2);
 
 #endif

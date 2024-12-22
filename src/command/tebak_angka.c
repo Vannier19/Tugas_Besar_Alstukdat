@@ -45,7 +45,7 @@ void tebak_angka_game(int *saldo) {
             hadiah = 500 - (i * 20);
             printf("Tebakanmu benar! +%d rupiah telah ditambahkan ke akun Anda.\n", hadiah);
             *saldo += hadiah;
-            printf("ini saldo kamu %d",*saldo);
+            printf("ini saldo kamu %d\n",*saldo);
             return;
         }
 

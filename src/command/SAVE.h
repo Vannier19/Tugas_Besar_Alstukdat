@@ -1,13 +1,14 @@
 #ifndef SAVE_H
 #define SAVE_H
 
-#include <stdio.h>
-#include "ADT_Kustom.h"
+#include "../ADT/ADT_Kustom.h"
+#include "../ADT/ADT_Array_Dinamis.h"
+#include "../ADT/ADT_Array_Statik.h"
 
-#define MAX_ITEMS 100
-#define MAX_USERS 50
-#define MAX_LEN 100
+// Fungsi untuk menyimpan data ke file
+// Fungsi untuk menyimpan data ke file
+void saveBarang(ListDin listBarang, const char *filename);
+void saveUsers(List users, const char *filename);
+void save(ListDin listBarang, List users, const char *filename);
 
-void SAVE_TO_FILE(Barang barang[], int jumlahBarang, User users[], int jumlahUsers, char *namaFile);
-
-#endif // SAVE_H
+#endif

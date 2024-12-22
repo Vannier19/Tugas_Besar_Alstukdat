@@ -2,7 +2,7 @@
 #define TEBAK_ANGKA_H
 
 #include <time.h>
-#include "ADT_Mesin_Kata.h"
+#include "../ADT/ADT_Mesin_Kata.h"
 // #include "../save/save.h"
 
 // *************** Deklarasi Fungsi dan Prosedur ***************
